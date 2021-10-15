@@ -14,15 +14,17 @@ dependencies:
   intl: 0.17.0
   android_alarm_manager: 2.0.2
   http: 0.13.4
+  sqflite: 2.0.0+4
+  path: 1.8.0
   flutter: 
     sdk: flutter
 
 dev_dependencies: 
   flutter_lints: ^1.0.0
-  flutter_test: 
-    sdk: flutter
   mockito: ^5.0.16
   build_runner: ^2.1.4
+  flutter_test: 
+    sdk: flutter
 
 flutter: 
   assets: 

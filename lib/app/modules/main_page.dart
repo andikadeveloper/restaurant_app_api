@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:restaurant_app_api/app/controllers/list_restaurant_controller.dart';
+import 'package:restaurant_app_api/app/modules/favorite/controllers/favorite_controller.dart';
 import 'package:restaurant_app_api/app/modules/favorite/views/favorite_view.dart';
 import 'package:restaurant_app_api/app/modules/home/views/home_view.dart';
 import 'package:restaurant_app_api/app/modules/search/views/search_view.dart';
@@ -16,6 +17,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final listRestaurantController =
       Get.put(ListRestaurantController(), permanent: true);
+  final favoriteController = Get.put(FavoriteController());
 
   int _navbarIndex = 0;
 

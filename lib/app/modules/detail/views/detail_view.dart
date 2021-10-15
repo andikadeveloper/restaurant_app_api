@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:restaurant_app_api/app/controllers/list_restaurant_controller.dart';
 import 'package:restaurant_app_api/app/controllers/user_controller.dart';
 import 'package:restaurant_app_api/app/modules/detail/views/widgets/list_customer_review.dart';
+import 'package:restaurant_app_api/app/modules/favorite/controllers/favorite_controller.dart';
 import 'package:restaurant_app_api/app/utils/constants.dart';
 import 'package:restaurant_app_api/app/widgets/my_text_field.dart';
 
@@ -15,7 +15,6 @@ import 'widgets/restaurant_detail.dart';
 
 class DetailView extends GetView<DetailController> {
   final userController = Get.find<UserController>();
-  final listRestaurantController = Get.find<ListRestaurantController>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,32 +28,33 @@ class DetailView extends GetView<DetailController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ImageWithIconButton(
-                  imageId: controller.restaurant.pictureId,
-                  favoriteButton: Obx(
-                    () => IconButton(
-                      icon: listRestaurantController
-                              .checkIsFavorite(controller.restaurant.id)
-                          ? Icon(
-                              Icons.favorite,
-                              color: primaryColor,
-                            )
-                          : Icon(
-                              Icons.favorite_border,
-                              color: primaryColor,
-                            ),
-                      onPressed: () {
-                        if (!listRestaurantController
-                            .checkIsFavorite(controller.restaurant.id)) {
-                          listRestaurantController
-                              .addToFavorite(controller.restaurant);
-                        } else {
-                          listRestaurantController
-                              .removeFromFavorite(controller.restaurant);
-                        }
+                    imageId: controller.restaurant.pictureId,
+                    favoriteButton: GetBuilder<FavoriteController>(
+                      builder: (favoriteController) {
+                        return IconButton(
+                          icon: favoriteController
+                                  .checkIsFavorite(controller.restaurant.id)
+                              ? Icon(
+                                  Icons.favorite,
+                                  color: primaryColor,
+                                )
+                              : Icon(
+                                  Icons.favorite_border,
+                                  color: primaryColor,
+                                ),
+                          onPressed: () {
+                            if (!favoriteController
+                                .checkIsFavorite(controller.restaurant.id)) {
+                              favoriteController
+                                  .addToFavorite(controller.restaurant);
+                            } else {
+                              favoriteController
+                                  .removeFromFavorite(controller.restaurant.id);
+                            }
+                          },
+                        );
                       },
-                    ),
-                  ),
-                ),
+                    )),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
