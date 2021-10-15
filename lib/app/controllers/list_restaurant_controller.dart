@@ -11,6 +11,9 @@ class ListRestaurantController extends GetxController
   // Restauran yang berhasil dicari di pencarian
   var foundedRestaurant = <Restaurant>[].obs;
 
+  // Favorite restaurant
+  var favoriteRestaurant = <Restaurant>[].obs;
+
   void getAllRestaurant() async {
     change(null, status: RxStatus.loading());
 
@@ -39,6 +42,30 @@ class ListRestaurantController extends GetxController
       change(null, status: RxStatus.success());
       foundedRestaurant.value = [];
     }
+  }
+
+  void addToFavorite(Restaurant restaurant) {
+    favoriteRestaurant.add(restaurant);
+  }
+
+  void removeFromFavorite(Restaurant restaurant) {
+    favoriteRestaurant.remove(restaurant);
+    update();
+  }
+
+  bool checkIsFavorite(String restaurantId) {
+    bool isFavorite = false;
+
+    if (favoriteRestaurant.isNotEmpty) {
+      favoriteRestaurant.forEach(
+        (element) {
+          if (element.id == restaurantId) {
+            isFavorite = true;
+          }
+        },
+      );
+    }
+    return isFavorite;
   }
 
   @override

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:restaurant_app_api/app/controllers/list_restaurant_controller.dart';
 import 'package:restaurant_app_api/app/controllers/user_controller.dart';
 import 'package:restaurant_app_api/app/modules/detail/views/widgets/list_customer_review.dart';
 import 'package:restaurant_app_api/app/utils/constants.dart';
@@ -14,6 +15,7 @@ import 'widgets/restaurant_detail.dart';
 
 class DetailView extends GetView<DetailController> {
   final userController = Get.find<UserController>();
+  final listRestaurantController = Get.find<ListRestaurantController>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,30 @@ class DetailView extends GetView<DetailController> {
               children: [
                 ImageWithIconButton(
                   imageId: controller.restaurant.pictureId,
+                  favoriteButton: Obx(
+                    () => IconButton(
+                      icon: listRestaurantController
+                              .checkIsFavorite(controller.restaurant.id)
+                          ? Icon(
+                              Icons.favorite,
+                              color: primaryColor,
+                            )
+                          : Icon(
+                              Icons.favorite_border,
+                              color: primaryColor,
+                            ),
+                      onPressed: () {
+                        if (!listRestaurantController
+                            .checkIsFavorite(controller.restaurant.id)) {
+                          listRestaurantController
+                              .addToFavorite(controller.restaurant);
+                        } else {
+                          listRestaurantController
+                              .removeFromFavorite(controller.restaurant);
+                        }
+                      },
+                    ),
+                  ),
                 ),
                 Padding(
                   padding:

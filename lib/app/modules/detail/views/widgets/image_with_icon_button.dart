@@ -8,9 +8,11 @@ class ImageWithIconButton extends StatelessWidget {
   const ImageWithIconButton({
     Key? key,
     required this.imageId,
+    required this.favoriteButton,
   }) : super(key: key);
 
   final String imageId;
+  final Widget favoriteButton;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class ImageWithIconButton extends StatelessWidget {
                   color: primaryColor,
                 ),
               ),
+              favoriteButton,
             ],
           ),
         )

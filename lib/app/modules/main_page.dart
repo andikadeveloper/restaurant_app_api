@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:restaurant_app_api/app/controllers/list_restaurant_controller.dart';
+import 'package:restaurant_app_api/app/modules/favorite/views/favorite_view.dart';
 import 'package:restaurant_app_api/app/modules/home/views/home_view.dart';
 import 'package:restaurant_app_api/app/modules/search/views/search_view.dart';
 
@@ -20,6 +21,7 @@ class _MainPageState extends State<MainPage> {
   final _listPage = [
     HomeView(),
     SearchView(),
+    FavoriteView(),
   ];
 
   @override
@@ -36,6 +38,8 @@ class _MainPageState extends State<MainPage> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border), label: 'Favorite'),
         ],
       ),
     );

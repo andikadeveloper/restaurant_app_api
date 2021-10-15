@@ -8,12 +8,14 @@ class MyTextField extends StatefulWidget {
     required this.hintText,
     required this.controller,
     this.isPassword = false,
+    this.onChanged,
     this.onEditingComplete,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String hintText;
   final bool isPassword;
+  final ValueChanged? onChanged;
   final Function()? onEditingComplete;
 
   @override
@@ -32,6 +34,7 @@ class _MyTextFieldState extends State<MyTextField> {
       autocorrect: false,
       obscureText: widget.isPassword == true ? _isPassVisible : false,
       style: Get.textTheme.bodyText2,
+      onChanged: widget.onChanged,
       onEditingComplete: widget.onEditingComplete,
       validator: (value) {
         if (value!.isEmpty) {
