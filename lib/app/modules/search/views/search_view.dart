@@ -2,44 +2,18 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:restaurant_app_api/app/controllers/list_restaurant_controller.dart';
-import 'package:restaurant_app_api/app/data/models/restaurant_model.dart';
-import 'package:restaurant_app_api/app/routes/app_pages.dart';
 import 'package:restaurant_app_api/app/utils/constants.dart';
+import 'package:restaurant_app_api/app/modules/search/views/restaurant_list.dart';
 
 import '../controllers/search_controller.dart';
 
 class SearchView extends GetView<SearchController> {
+  final listRestaurantController = Get.find<ListRestaurantController>();
+  final searchController = Get.put(SearchController());
   @override
   Widget build(BuildContext context) {
-    final listRestaurantController = Get.find<ListRestaurantController>();
-    final searchController = Get.put(SearchController());
-
     return Scaffold(
-      appBar: AppBar(
-        title: TextField(
-          controller: searchController.searchTextController,
-          cursorColor: primaryColor,
-          decoration: InputDecoration(
-            fillColor: Colors.grey[200],
-            filled: true,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: Icon(
-              Icons.search,
-              color: primaryColor,
-            ),
-            hintText: 'Ketik nama restoran atau menu',
-            hintStyle: Get.textTheme.caption,
-          ),
-          onChanged: (value) {
-            listRestaurantController.onSearch(value);
-          },
-        ),
-        centerTitle: true,
-      ),
+      appBar: buildAppbar(),
       body: listRestaurantController.obx(
         (_) {
           // Untuk menampilkan error saat pencarian tidak ditemukan
@@ -62,38 +36,8 @@ class SearchView extends GetView<SearchController> {
               ),
             );
           } else {
-            return ListView.builder(
-              itemCount: listRestaurantController.foundedRestaurant.length,
-              itemBuilder: (context, index) {
-                Restaurant restaurant =
-                    listRestaurantController.foundedRestaurant[index];
-
-                return ListTile(
-                  onTap: () {
-                    Get.toNamed(Routes.DETAIL, arguments: restaurant.id);
-                  },
-                  leading: CircleAvatar(
-                    backgroundColor: primaryColor,
-                    backgroundImage: NetworkImage(
-                      'https://restaurant-api.dicoding.dev/images/small/' +
-                          restaurant.pictureId,
-                    ),
-                  ),
-                  title: Text(restaurant.name),
-                  subtitle: Text(restaurant.city),
-                  trailing: CircleAvatar(
-                    backgroundColor: primaryColor.withOpacity(0.5),
-                    foregroundColor: Colors.black54,
-                    radius: 10,
-                    child: FittedBox(
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(restaurant.rating.toString()),
-                      ),
-                    ),
-                  ),
-                );
-              },
+            return RestaurantList(
+              listRestaurant: listRestaurantController.foundedRestaurant,
             );
           }
         },
@@ -112,6 +56,34 @@ class SearchView extends GetView<SearchController> {
           ),
         ),
       ),
+    );
+  }
+
+  AppBar buildAppbar() {
+    return AppBar(
+      title: TextField(
+        controller: searchController.searchTextController,
+        cursorColor: primaryColor,
+        decoration: InputDecoration(
+          fillColor: Colors.grey[200],
+          filled: true,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide.none,
+          ),
+          suffixIcon: Icon(
+            Icons.search,
+            color: primaryColor,
+          ),
+          hintText: 'Ketik nama restoran atau menu',
+          hintStyle: Get.textTheme.caption,
+        ),
+        onChanged: (value) {
+          listRestaurantController.onSearch(value);
+        },
+      ),
+      centerTitle: true,
     );
   }
 }
