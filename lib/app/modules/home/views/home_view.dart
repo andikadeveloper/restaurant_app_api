@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:restaurant_app_api/app/controllers/list_restaurant_controller.dart';
+import 'package:restaurant_app_api/app/controllers/scheduling_controller.dart';
 import 'package:restaurant_app_api/app/controllers/user_controller.dart';
 import 'package:restaurant_app_api/app/utils/constants.dart';
 
@@ -28,6 +29,19 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               currentAccountPictureSize: Size.square(50),
+            ),
+            GetBuilder<SchedulingController>(
+              init: SchedulingController(),
+              builder: (scheduling) {
+                return SwitchListTile(
+                  title: Text('Notif rekomendasi restoran'),
+                  activeColor: primaryColor,
+                  value: scheduling.isScheduled,
+                  onChanged: (value) {
+                    scheduling.scheduledRestaurant(value);
+                  },
+                );
+              },
             )
           ],
         ),
