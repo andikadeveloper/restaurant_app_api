@@ -2,7 +2,7 @@ import 'dart:isolate';
 import 'dart:math';
 
 import 'dart:ui';
-
+import 'package:http/http.dart' as http;
 import 'package:restaurant_app_api/app/data/models/restaurant_model.dart';
 import 'package:restaurant_app_api/app/data/providers/restaurant_provider.dart';
 import 'package:restaurant_app_api/app/utils/notification_helper.dart';
@@ -31,7 +31,8 @@ class BackgroundService {
 
   static Future<void> callback() async {
     final NotificationHelper _notificationHelper = NotificationHelper();
-    var result = await RestaurantProvider().getAllRestaurant();
+    var result =
+        await RestaurantProvider(client: http.Client()).getAllRestaurant();
 
     Restaurant restaurant = result[Random().nextInt(result.length)];
 

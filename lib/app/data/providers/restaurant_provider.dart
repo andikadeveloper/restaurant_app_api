@@ -1,39 +1,46 @@
-import 'package:get/get.dart';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../models/restaurant_model.dart';
 
-class RestaurantProvider extends GetConnect {
+class RestaurantProvider {
   final String _baseURL = 'https://restaurant-api.dicoding.dev/';
+  late final http.Client client;
+
+  RestaurantProvider({required this.client});
 
   Future<Restaurant> getRestaurant(String id) async {
-    final response = await get(_baseURL + 'detail/$id');
+    final Uri url = Uri.parse(_baseURL + 'detail/$id');
+    final response = await client.get(url);
 
     if (response.statusCode == 200) {
-      final data = response.body['restaurant'];
+      final res = jsonDecode(response.body)['restaurant'];
 
-      return Restaurant.fromJson(data);
+      return Restaurant.fromJson(res);
     } else {
-      throw Exception(response.statusCode);
+      throw Exception('Failed to load data restaurant');
     }
   }
 
   Future<List<Restaurant>> getAllRestaurant() async {
-    final response = await get(_baseURL + 'list');
+    final Uri url = Uri.parse(_baseURL + 'list');
+
+    final response = await client.get(url);
 
     if (response.statusCode == 200) {
-      final List data = response.body['restaurants'];
+      final List data = jsonDecode(response.body)['restaurants'];
 
       return data.map((e) => Restaurant.fromJson(e)).toList();
     } else {
-      throw Exception(response.statusCode);
+      throw Exception('Failed to load data restaurants');
     }
   }
 
   Future<List<CustomerReview>> postReview(
       String restaurantId, String username, String review) async {
-    final response = await post(
-      _baseURL + "review",
-      {
+    final Uri url = Uri.parse(_baseURL + "review");
+    final response = await client.post(
+      url,
+      body: {
         "id": restaurantId,
         "name": username,
         "review": review,
@@ -42,7 +49,7 @@ class RestaurantProvider extends GetConnect {
     );
 
     if (response.statusCode == 200) {
-      final List data = response.body["customerReviews"];
+      final List data = jsonDecode(response.body)["customerReviews"];
 
       return data.map((e) => CustomerReview.fromJson(e)).toList();
     } else {
@@ -51,10 +58,12 @@ class RestaurantProvider extends GetConnect {
   }
 
   Future<List<Restaurant>> searchRestaurant(String query) async {
-    final response = await get(_baseURL + '/search?q=$query');
+    final Uri url = Uri.parse(_baseURL + '/search?q=$query');
+
+    final response = await client.get(url);
 
     if (response.statusCode == 200) {
-      final List data = response.body['restaurants'];
+      final List data = jsonDecode(response.body)['restaurants'];
 
       return data.map((e) => Restaurant.fromJson(e)).toList();
     } else {

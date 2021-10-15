@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:restaurant_app_api/app/data/models/restaurant_model.dart';
 import 'package:restaurant_app_api/app/data/providers/restaurant_provider.dart';
 
@@ -38,7 +39,7 @@ class DetailController extends GetxController with StateMixin<Restaurant> {
     super.onInit();
     reviewTextController = TextEditingController();
 
-    _restaurantProvider = RestaurantProvider();
+    _restaurantProvider = RestaurantProvider(client: http.Client());
   }
 
   @override
