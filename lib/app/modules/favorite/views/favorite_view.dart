@@ -7,9 +7,7 @@ import 'package:restaurant_app_api/app/routes/app_pages.dart';
 import 'package:restaurant_app_api/app/utils/constants.dart';
 import 'package:restaurant_app_api/app/widgets/restaurant_tile.dart';
 
-import '../controllers/favorite_controller.dart';
-
-class FavoriteView extends GetView<FavoriteController> {
+class FavoriteView extends StatelessWidget {
   final listRestaurantController = Get.find<ListRestaurantController>();
 
   @override

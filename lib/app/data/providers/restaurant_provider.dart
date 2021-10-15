@@ -13,9 +13,9 @@ class RestaurantProvider {
     final response = await client.get(url);
 
     if (response.statusCode == 200) {
-      final res = jsonDecode(response.body)['restaurant'];
+      final res = jsonDecode(response.body);
 
-      return Restaurant.fromJson(res);
+      return Restaurant.fromJson(res['restaurant']);
     } else {
       throw Exception('Failed to load data restaurant');
     }

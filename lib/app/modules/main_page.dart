@@ -4,6 +4,7 @@ import 'package:restaurant_app_api/app/controllers/list_restaurant_controller.da
 import 'package:restaurant_app_api/app/modules/favorite/views/favorite_view.dart';
 import 'package:restaurant_app_api/app/modules/home/views/home_view.dart';
 import 'package:restaurant_app_api/app/modules/search/views/search_view.dart';
+import 'package:restaurant_app_api/app/utils/notification_helper.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -23,6 +24,15 @@ class _MainPageState extends State<MainPage> {
     SearchView(),
     FavoriteView(),
   ];
+
+  final _notificationHelper = NotificationHelper();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _notificationHelper.configureSelectNotificationSubject();
+  }
 
   @override
   Widget build(BuildContext context) {
