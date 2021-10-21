@@ -18,7 +18,7 @@ class DetailView extends GetView<DetailController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.getRestaurantByID(Get.arguments);
+    controller.getRestaurantByID(Get.arguments.toString());
 
     return Scaffold(
       body: controller.obx(

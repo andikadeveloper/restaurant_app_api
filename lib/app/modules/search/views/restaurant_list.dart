@@ -35,7 +35,7 @@ class RestaurantList extends StatelessWidget {
             ),
           ),
           onTap: () {
-            Get.toNamed(Routes.DETAIL);
+            Get.toNamed(Routes.DETAIL, arguments: restaurant.id);
           },
         );
       },
