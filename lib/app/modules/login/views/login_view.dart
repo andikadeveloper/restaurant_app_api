@@ -84,15 +84,16 @@ class LoginView extends GetView<LoginController> {
                     minimumSize: Size.fromHeight(50),
                   ),
                   onPressed: () {
-                    User user = User(
+                    if (_formKey.currentState!.validate()) {
+                      User user = User(
                       id: DateTime.now().toString(),
                       email: controller.emailController.text,
                       name: controller.nameController.text,
                       password: controller.passwordController.text,
-                    );
-                    userController.addUser(user);
-
-                    Get.offAll(MainPage());
+                      );
+                      userController.addUser(user);
+                      Get.offAll(MainPage());
+                    }
                   },
                 ),
               ],
