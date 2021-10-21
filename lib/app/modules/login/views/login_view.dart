@@ -13,55 +13,90 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(20),
         alignment: Alignment.center,
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/images/login.png'),
-              MyTextField(
-                hintText: 'Nama',
-                controller: controller.nameController,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                hintText: 'Email',
-                controller: controller.emailController,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                hintText: 'Password',
-                controller: controller.passwordController,
-                isPassword: true,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                child: Text('Masuk'),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size.fromHeight(50),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/login.png'),
+                MyTextField(
+                  hintText: 'Nama',
+                  controller: controller.nameController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Nama wajib diisi';
+                    } else if (value.length < 6) {
+                      return 'Nama harus memiliki panjang minimal 6 karakter';
+                    }
+                  },
+                  onChanged: (value) {
+                    _formKey.currentState!.validate();
+                  },
                 ),
-                onPressed: () {
-                  User user = User(
-                    id: DateTime.now().toString(),
-                    email: controller.emailController.text,
-                    name: controller.nameController.text,
-                    password: controller.passwordController.text,
-                  );
-                  userController.addUser(user);
+                const SizedBox(
+                  height: 10,
+                ),
+                MyTextField(
+                  hintText: 'Email',
+                  controller: controller.emailController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Email wajib diisi';
+                    } else if (!GetUtils.isEmail(value)) {
+                      return 'Email anda tidak valid';
+                    }
+                  },
+                  onChanged: (value) {
+                    _formKey.currentState!.validate();
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                MyTextField(
+                  hintText: 'Password',
+                  controller: controller.passwordController,
+                  isPassword: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Password wajib diisi';
+                    } else if (value.length < 8) {
+                      return 'Password harus memiliki panjang minimal 8 karakter';
+                    }
+                  },
+                  onChanged: (value) {
+                    _formKey.currentState!.validate();
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  child: Text('Masuk'),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size.fromHeight(50),
+                  ),
+                  onPressed: () {
+                    User user = User(
+                      id: DateTime.now().toString(),
+                      email: controller.emailController.text,
+                      name: controller.nameController.text,
+                      password: controller.passwordController.text,
+                    );
+                    userController.addUser(user);
 
-                  Get.offAll(MainPage());
-                },
-              ),
-            ],
+                    Get.offAll(MainPage());
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

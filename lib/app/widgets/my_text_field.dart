@@ -10,6 +10,7 @@ class MyTextField extends StatefulWidget {
     this.isPassword = false,
     this.onChanged,
     this.onEditingComplete,
+    this.validator,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -17,6 +18,7 @@ class MyTextField extends StatefulWidget {
   final bool isPassword;
   final ValueChanged? onChanged;
   final Function()? onEditingComplete;
+  final String? Function(String?)? validator;
 
   @override
   State<MyTextField> createState() => _MyTextFieldState();
@@ -36,11 +38,7 @@ class _MyTextFieldState extends State<MyTextField> {
       style: Get.textTheme.bodyText2,
       onChanged: widget.onChanged,
       onEditingComplete: widget.onEditingComplete,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Wajib diisi';
-        }
-      },
+      validator: widget.validator,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 20),
         hintText: widget.hintText,
