@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:restaurant_app_api/app/controllers/list_restaurant_controller.dart';
 import 'package:restaurant_app_api/app/controllers/scheduling_controller.dart';
 import 'package:restaurant_app_api/app/controllers/user_controller.dart';
+import 'package:restaurant_app_api/app/routes/app_pages.dart';
 import 'package:restaurant_app_api/app/utils/constants.dart';
 
 import 'widgets/restaurant_grid.dart';
@@ -42,6 +43,20 @@ class HomeView extends StatelessWidget {
                   },
                 );
               },
+            ),
+            Spacer(),
+            SizedBox(
+              height: Get.height * 0.05,
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {
+                  Get.offAllNamed(Routes.LOGIN);
+                },
+                child: Text(
+                  'LOGOUT',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
             )
           ],
         ),
